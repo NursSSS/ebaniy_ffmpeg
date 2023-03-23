@@ -1,0 +1,59 @@
+version: "3"
+services:
+  api:
+    image: youtube:storage
+    env_file:
+      - .env
+    ports:
+      - "3002:3002"
+    depends_on:
+      - postgres
+    networks:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    networks:
+      - postgres
+    ports:
+      - "5000:5432"
+    volumes:
+      - PG:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: "123"
+      POSTGRES_USER: postgres
+ 
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    networks:
+      - postgres
+    ports:
+      - "8080:80"
+    volumes:
+      - PgAdmin4:/root/.pgadmin
+      - pgadmin:/var/lib/pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: nurik1kun@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: "123123123"
+ 
+
+volumes:
+  PG:
+    external: true
+  PgAdmin4:
+    external: true
+  pgadmin:
+    external: true
+  data_1:
+    external: true
+  data_2:
+    external: true
+  data_3:
+    external: true
+  data_4:
+    external: true
+
+ 
+networks:
+  postgres:
+    driver: bridge
