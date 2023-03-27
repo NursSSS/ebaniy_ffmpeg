@@ -1,13 +1,16 @@
-FROM node:18.13.0
+FROM node:18-alpine
 
 WORKDIR /app
 
-RUN sed -i -e 's/http:\/\/archive\.ubuntu\.com\/ubuntu\//mirror:\/\/mirrors\.ubuntu\.com\/mirrors\.txt/' /etc/apt/sources.list
-RUN apt-get update && apt-get install ffmpeg
 
-COPY . .
+RUN apk add --update ffmpeg && \
+    rm -rf /var/cache/apk/*
+
+COPY package*.json ./
 
 RUN npm install
 
-CMD ["npm", "run", "start:dev"]
+COPY . .
 
+
+CMD ["npm", "run", "start:dev"]

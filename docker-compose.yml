@@ -1,18 +1,24 @@
 version: "3"
 services:
   api:
-    image: youtube:storage
+    image: youtube:test9
     env_file:
       - .env
     ports:
       - "3002:3002"
+    volumes:
+      - data_1:/app/data/data_1
+      - data_2:/app/data/data_2
+      - data_3:/app/data/data_3
+      - data_4:/app/data/data_4
+      - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - postgres
     networks:
       - postgres
 
   postgres:
-    image: postgres:latest
+    image: postgres:15
     networks:
       - postgres
     ports:
@@ -24,7 +30,7 @@ services:
       POSTGRES_USER: postgres
  
   pgadmin:
-    image: dpage/pgadmin4:latest
+    image: dpage/pgadmin4:snapshot
     networks:
       - postgres
     ports:
@@ -45,14 +51,9 @@ volumes:
   pgadmin:
     external: true
   data_1:
-    external: true
   data_2:
-    external: true
   data_3:
-    external: true
   data_4:
-    external: true
-
  
 networks:
   postgres:

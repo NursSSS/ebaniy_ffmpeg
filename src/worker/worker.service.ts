@@ -27,7 +27,7 @@ export class WorkerService {
         const outputVideos = [
             {
                 name: fileName,
-                path: `${file.destination}/${file.filename}`,
+                path: path.join(fullPath, file.destination, file.filename),
                 width: Number(resolution.width),
                 height: Number(resolution.height),
                 fileName: file.filename,
@@ -97,7 +97,7 @@ export class WorkerService {
         });
     }
 
-    async deleteFile(filePath: string[]) {
+    async deleteFile(filePath) {
         for (let i = 0; i < filePath.length; i++) {
             try {
                 await fs.promises.unlink(filePath[i]);
